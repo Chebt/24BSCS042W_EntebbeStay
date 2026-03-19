@@ -13,15 +13,19 @@ EntebbeStay is one of my dynamic web applications designed to help travelers fin
 - **Database:** MySQL
 - **Environment:** VS Code & Docker
 
-## How to Run the Project
-1. Open `http://localhost/24BSCS042W_EntebbeStay` in your browser.
+## Steps to Run the Project (Docker)
+1. Ensure **Docker Desktop** is running.
+2. Open the project folder in **VS Code**.
+3. Run the command `docker-compose up -d` in the terminal:
+4. The application will be available at `http://localhost:8080`.
 
 ## Database Import Instructions
-1. Open phpMyAdmin.
+1. Open phpMyAdmin at `http://localhost:8081`
 2. Create a new database named `hotels`.
 3. Click on the **Import** tab.
 4. Choose the `database.sql` file from the project directory.
 5. Click **Go**.
+6. Access the project via `localhost/24BSCS042W_EntebbeStay`.
 
 ## System Credentials
 - **Username:** chebt
