@@ -11,7 +11,7 @@ CREATE TABLE hotels (
 
 INSERT INTO hotels (name, rating, location, services, available_space, website, image) VALUES
 ('Best Western Premier', 4, 'Manyago (Near Victoria Mall)',
- 'Pool, Gym, Spa, WiFi', 25, 'https://www.bestwestern.com', 'BWP_Hotel.jpg'),
+ 'Pool, Gym, Spa, WiFi', 25, 'https://bestwesternghe.co.ug', 'BWP_Hotel.jpg'),
 ('K Hotels Entebbe', 4, 'Hill Road', 'Rooftop Lounge, Spa, Gym, WiFi, 
 Bar & Restaurant', 23, 'https://www.khotels.ug', 'K_Hotels.jpg'),
 ('Admas Grand Hotel', 4, 'Circular Road', 'Bay Views, Pool, 

@@ -12,6 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $_SESSION['user'] = $username;
         header("Location: index.php"); // Redirect to hotel list
+        exit();
     } else {
         echo "<script>alert('Invalid Login');</script>";
     }
@@ -24,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <div class="login-box">
-        <h2>Welcome to EntebbeStay Hotel App</h2>
+        <h2>Welcome to EntebbeStay Hotel Service</h2>
         <form method="POST">
             <label for="username" class="username"></label>
             <input type="text" name="username" placeholder="Username" required>

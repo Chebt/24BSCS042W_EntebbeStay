@@ -18,7 +18,7 @@ $displayName = is_array($_SESSION['user']) ?
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EntebbeStay | 24BSCS042W</title>
+    <title>EntebbeStay Hotel Booking Service</title>
     
     <link rel="stylesheet" href="style.css">
 </head>
@@ -26,7 +26,11 @@ $displayName = is_array($_SESSION['user']) ?
 
 <header>
     <div class="nav">
-        <h1>EntebbeStay Booking App</h1>
+        <marquee behavior="Your walk around Entebbe" direction="left"></marquee>
+        <h1>EntebbeStay Hotel Booking Service</h1>
+        <p>Welcome to EntebbeStay Hotel Booking Service were we help travelers find and book a 2-5 star hotel of their choice, that
+             provides a 'home-away-from experience' located between Kawuku and Kitoro in Entebbe.
+             The system allows you to view hotel details,  services offered, and real-time availability.</p>
         <p>Logged in as: <strong><?php echo htmlspecialchars($displayName); ?></strong> | 
         <a href="logout.php">Logout</a></p>
     </div>
@@ -70,7 +74,7 @@ $displayName = is_array($_SESSION['user']) ?
 </main>
 
 <footer>
-    <p>&copy; 2026 EntebbeStay | Student ID: 24BSCS042W</p>
+    <p>&copy; 2026 EntebbeStay | Your walk around Entebbe</p>
 </footer>
 
 </body>
