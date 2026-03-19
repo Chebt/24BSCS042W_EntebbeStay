@@ -24,8 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <div class="login-box">
-        <h2>Hotel App Login</h2>
+        <h2>Welcome to EntebbeStay Hotel App</h2>
         <form method="POST">
+            <label for="username" class="username"></label>
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>

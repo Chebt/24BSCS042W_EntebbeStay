@@ -3,7 +3,7 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: school_password
+      MYSQL_ROOT_PASSWORD: chebt32
       MYSQL_DATABASE: coursework_db
     ports:
       - "3306:3306"
