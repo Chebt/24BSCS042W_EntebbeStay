@@ -20,8 +20,101 @@ $displayName = is_array($_SESSION['user']) ?
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EntebbeStay Hotel Booking Service</title>
     
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background: #f4f7f6; 
+            margin: 0; 
+            padding: 20px;
+        }
+        .hotel-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+        }
+        .hotel-card { 
+            background: white; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+            overflow: hidden; 
+            padding: 15px; 
+        }
+        .hotel-img { 
+            width: 100%; 
+            height: 180px; 
+            object-fit: cover; 
+            background: #ddd; 
+        }
+        .login-box { 
+            max-width: 400px; 
+            margin: 100px auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+            text-align: center; 
+        }
+        input { 
+            width: 90%; 
+            padding: 10px; 
+            margin: 10px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 5px; 
+        }
+        button { 
+            background: #2c3e50; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        /* Adds styles for your header/nav since */
+        .nav {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .nav h1 { margin: 0; }
+        .btn-book {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn-book {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+             margin-top: 10px;
+             font-weight: bold;
+             text-align: center;
+        }
+        .btn-book:hover {
+            background: #219150;
+        }
+        .nav {
+    background: #2c3e50;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+.nav h1 { margin: 0; color: #ecf0f1; }
+.nav p { font-size: 0.9em; opacity: 0.9; }
+
+
+    </style>
 </head>
+
 <body>
 
 <header>
@@ -53,7 +146,7 @@ $displayName = is_array($_SESSION['user']) ?
 
             echo "
             <div class='hotel-card'>
-                <img src='assets/" . $imageFileName . "' alt='" . $row['name'] . "' class='hotel-img' 
+                <img src='images/" . $imageFileName . "' alt='" . $row['name'] . "' class='hotel-img' 
                 onerror=\"this.src='https://via.placeholder.com'\">
                 
                 <div class='content'>
