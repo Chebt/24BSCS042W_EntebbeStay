@@ -2,15 +2,35 @@
 include 'db_config.php';
 session_start();
 
-// 1. Authentication Check
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit();
 }
 
+$displayName = is_array($_SESSION['user']) ? $_SESSION['user']['username'] : $_SESSION['user'];
 
-$displayName = is_array($_SESSION['user']) ?
- $_SESSION['user']['username'] : $_SESSION['user'];
+// --- SQL QUERY BUILDING ---
+$sql = "SELECT * FROM hotels WHERE 1=1";
+
+if (!empty($_GET['search'])) {
+    $search = $conn->real_escape_string($_GET['search']);
+    $sql .= " AND (name LIKE '%$search%' OR location LIKE '%$search%')";
+}
+    // this adds a rating feature
+if (!empty($_GET['rating'])) {
+    $rating = (int)$_GET['rating'];
+    $sql .= " AND rating = $rating";
+}
+    // Sorts the searches by price and availability
+if (!empty($_GET['sort'])) {
+    switch ($_GET['sort']) {
+        case 'space_high': $sql .= " ORDER BY available_space DESC"; break;
+        case 'price_low':  $sql .= " ORDER BY price ASC"; break;
+        case 'price_high': $sql .= " ORDER BY price DESC"; break;
+    }
+}
+
+$result = $conn->query($sql);
 ?>
 
 <!DOCTYPE html>
@@ -19,154 +39,80 @@ $displayName = is_array($_SESSION['user']) ?
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EntebbeStay Hotel Booking Service</title>
-    
-    <style>
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background: #f4f7f6; 
-            margin: 0; 
-            padding: 20px;
-        }
-        .hotel-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-        }
-        .hotel-card { 
-            background: white; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
-            overflow: hidden; 
-            padding: 15px; 
-        }
-        .hotel-img { 
-            width: 100%; 
-            height: 180px; 
-            object-fit: cover; 
-            background: #ddd; 
-        }
-        .login-box { 
-            max-width: 400px; 
-            margin: 100px auto; 
-            background: white; 
-            padding: 30px; 
-            border-radius: 10px; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
-            text-align: center; 
-        }
-        input { 
-            width: 90%; 
-            padding: 10px; 
-            margin: 10px 0; 
-            border: 1px solid #ccc; 
-            border-radius: 5px; 
-        }
-        button { 
-            background: #2c3e50; 
-            color: white; 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-        }
-        /* Adds styles for your header/nav since */
-        .nav {
-            background: #2c3e50;
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        .nav h1 { margin: 0; }
-        .btn-book {
-            display: inline-block;
-            background: #27ae60;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            margin-top: 10px;
-        }
-        .btn-book {
-            display: inline-block;
-            background: #27ae60;
-            color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-             margin-top: 10px;
-             font-weight: bold;
-             text-align: center;
-        }
-        .btn-book:hover {
-            background: #219150;
-        }
-        .nav {
-    background: #2c3e50;
-    color: white;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 30px;
-}
-.nav h1 { margin: 0; color: #ecf0f1; }
-.nav p { font-size: 0.9em; opacity: 0.9; }
+    <!-- Linking to my external CSS file -->
+    <link rel="stylesheet" type="text/css" href="style.css?v=1.1">
 
-
-    </style>
 </head>
-
 <body>
 
-<header>
-    <div class="nav">
-        <marquee behavior="Your walk around Entebbe" direction="left"></marquee>
-        <h1>EntebbeStay Hotel Booking Service</h1>
-        <p>Welcome to EntebbeStay Hotel Booking Service were we help travelers find and book a 2-5 star hotel of their choice, that
-             provides a 'home-away-from experience' located between Kawuku and Kitoro in Entebbe.
-             The system allows you to view hotel details,  services offered, and real-time availability.</p>
-        <p>Logged in as: <strong><?php echo htmlspecialchars($displayName); ?></strong> | 
-        <a href="logout.php">Logout</a></p>
+<header class="nav">
+
+<!-- Adding my Modern CSS Marquee -->
+    <div class="marquee-container">
+        <div class="marquee-text">
+            EntebbeStay | Your walk around Entebbe &nbsp;&nbsp; • &nbsp;&nbsp; 
+            EntebbeStay | Your walk around Entebbe &nbsp;&nbsp; • &nbsp;&nbsp;
+            EntebbeStay | Your walk around Entebbe &nbsp;&nbsp; • &nbsp;&nbsp;
+        </div>
     </div>
+    
+    <h1>EntebbeStay Hotel Booking Services</h1>
+    <p>Welcome to EntebbeStay Hotel Booking Service where we help travelers find and book a friendly 2-5 star hotel
+        of their choice, that provides a 'home-away-from-home' experience </p>
+    <p>Logged in as: <strong><?php echo htmlspecialchars($displayName); ?></strong> | 
+    <a href="my_bookings.php" style="color: #d746f4;">My Bookings</a> | 
+    <a href="logout.php" style="color: #3c83e7;">Logout</a></p>
 </header>
 
+<!-- This is Filter Section -->
+<!-- It will allow users to choose how they want the results ordered. -->
+<section class="filters">
+    <form method="GET">
+        <input type="text" name="search" placeholder="Search hotels..." value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+        
+        <select name="rating">
+            <option value="">All Ratings</option>
+            <?php for($i=5; $i>=2; $i--): ?>
+                <option value="<?php echo $i; ?>" <?php if(($_GET['rating']??'') == $i) echo 'selected'; ?>><?php echo $i; ?> Stars</option>
+            <?php endfor; ?>
+        </select>
+        <!-- allows users to choose how they want the results ordered.-->
+        <select name="sort">
+            <option value="">Sort By</option>
+            <option value="space_high" <?php if(($_GET['sort']??'') == 'space_high') echo 'selected'; ?>>Most Available</option>
+            <option value="price_low" <?php if(($_GET['sort']??'') == 'price_low') echo 'selected'; ?>>Price: Low-High</option>
+        </select>
+
+        <button type="submit">Apply</button>
+    </form>
+</section>
+
 <main class="hotel-grid">
-    <?php
-    // 3. This Fetches the 10+ hotels from my MySQL database (database.sql)
-    $sql = "SELECT * FROM hotels";
-    $result = $conn->query($sql);
-
-    if ($result && $result->num_rows > 0) {
-        while($row = $result->fetch_assoc()) {
-            
-           
-            $imageFileName = strtolower(str_replace(' ', '_', $row['name'])) . ".jpg"; 
-            
-           
-            $servicesList = is_array($row['services']) ? implode(", ", $row['services']) : $row['services'];
-
-            echo "
-            <div class='hotel-card'>
-                <img src='images/" . $imageFileName . "' alt='" . $row['name'] . "' class='hotel-img' 
-                onerror=\"this.src='https://via.placeholder.com'\">
-                
-                <div class='content'>
-                    <h3>" . $row['name'] . "</h3>
-                    <div class='stars'>" . str_repeat('★', (int)$row['rating']) . "</div>
-                   
-                    <p class='services'><strong>Services:</strong> " . $servicesList . "</p>
-                    <p class='availability'>Available Spaces: <strong>" . $row['available_space'] . "</strong></p>
-                    
-                    <a href='" . $row['website'] . "' target='_blank' class='btn-book'>Book Now</a>
-                </div>
-            </div>";
-        }
-    } else {
-        echo "<div class='no-results'><p>No hotels found in the database. Please check your SQL import.</p></div>";
-    }
-    ?>
+    <?php if ($result && $result->num_rows > 0): ?>
+        <?php while($row = $result->fetch_assoc()):     // fetches each hotel row
+            $imagePath = (stripos($row['image'], 'images/') === false) ? "images/".$row['image'] : $row['image'];
+        ?>
+            <div class="hotel-card">
+                <!-- thsi outputs safe data to avoid HTML injection -->
+                <img src="<?php echo htmlspecialchars($imagePath); ?>" class="hotel-img" alt="Hotel Photo">
+                <h3><?php echo htmlspecialchars($row['name']); ?></h3>
+                <!-- this converts numeric rating to star icons -->
+                <div class="stars"><?php echo str_repeat('★', (int)$row['rating']); ?></div>
+                <p>📍 <?php echo htmlspecialchars($row['location']); ?></p>
+                <p><strong>Available:</strong> <?php echo $row['available_space']; ?> rooms</p>
+                 <!-- it ensures that booking link uses ID param -->
+                <a href="book.php?id=<?php echo $row['id']; ?>" class="btn-book">Book Now</a>
+            </div>
+        <?php endwhile; ?>
+    <?php else: // this is a fallback if no hotels are found?>
+        <p>No results found for your search.</p>
+    <?php endif; ?>
+    
 </main>
 
 <footer>
+    <p>Note; we provide our hotel services between Kawuku and Kitoro. Our system allows you to view hotel details,  
+        services offered, and real-time availability.</p>
     <p>&copy; 2026 EntebbeStay | Your walk around Entebbe</p>
 </footer>
 
