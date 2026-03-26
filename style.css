@@ -1,7 +1,7 @@
 /* style.css */
 body { 
     font-family: 'Segoe UI', sans-serif; 
-    background: #b6cbc4; 
+    background: #aecdc3; 
     margin: 0px; 
     padding: 10px; padding-top: 200px;
 }
@@ -118,4 +118,61 @@ button {
 /* Pause on hover so my visitors/users can read it easily */
 .marquee-container:hover .marquee-text {
     animation-play-state: paused;
+}
+
+.login-box {
+    box-sizing: border-box;
+    text-align: center;
+    padding: 40px; width: 100%;
+    border-radius: 10px;
+    max-width: 400px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+.login-box h2 {
+    color: #1e3c72;
+    margin-bottom: 5px;
+    font-size: 1.8rem;
+}
+
+.login-box h3 {
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 30px;
+}
+
+form input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: 1px solid #d6d1d1;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+form input:focus {
+    border-color: #2a5298;
+}
+
+button {
+    background: #1e3c72;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #556684;
+}
+
+.login-box p {
+    color: #888;
+    margin-top: 20px;
 }
