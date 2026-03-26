@@ -16,7 +16,7 @@ EntebbeStay is one of my dynamic web applications designed to help travelers fin
 ## Steps to Run the Project (Docker)
 1. Ensure **Docker Desktop** is running.
 2. Open the project folder in **VS Code**
-3. Run the command `docker-compose up -d` in the terminal:
+3. Run the command `docker-compose up -d --build` in the terminal:
 4. The application will be available at `http://localhost:8080`.
 
 ## Database Import Instructions
